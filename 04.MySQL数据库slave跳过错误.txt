@@ -1,0 +1,23 @@
+MYSQL数据库复制时跳过错误的方法
+
+ 
+
+在MYSQL进行Replication的时候，有时候会由于主从端的POS点不同，导致复制的SQL进程出现错误，从而导致主从复制失败。比如在主端复制一个ID是100的到从端，而此时由于某种原因从端已经有了ID=100的记录，这时进行INSERT操作的时候，就会主键重复，插入失败。这时候需要跳过这条错误。方法如下
+
+ 
+
+1：停止SLAVE 服务
+
+mysql> STOP SLAVE;
+
+ 
+
+2：设置跳过的EVENT个数
+
+mysql> SET GLOBAL SQL_SLAVE_SKIP_COUNTER = 1;
+
+  www.2cto.com  
+
+3：启动SLAVE服务
+
+mysql> START SLAVE;
